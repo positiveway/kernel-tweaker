@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-# YAKT v705
+# YAKT v706
 # Author: @NotZeetaa (Github)
 # ×××××××××××××××××××××××××× #
 
@@ -85,7 +85,7 @@ ANDROID_VERSION=$(getprop ro.build.version.release)
 TOTAL_RAM=$(free -m | awk '/Mem/{print $2}')
 
 # Log starting information
-log_info "Starting YAKT v705"
+log_info "Starting YAKT v706"
 log_info "Build Date: 06/06/2024"
 log_info "Author: @NotZeetaa (Github)"
 log_info "Device: $(getprop ro.product.system.model)"
@@ -467,7 +467,7 @@ do
 	avail_govs="$(cat "$cpu/scaling_available_governors")"
 
 	# Attempt to set the governor in this order
-	for governor in schedutil interactive
+	for governor in performance schedutil interactive
 	do
 		# Once a matching governor is found, set it and break for this CPU
 		if [[ "$avail_govs" == *"$governor"* ]]
@@ -507,7 +507,7 @@ for queue in /sys/block/*/queue
 do
 	# Choose the first governor available
 	avail_scheds="$(cat "$queue/scheduler")"
-	for sched in cfq noop kyber bfq mq-deadline none
+	for sched in none mq-deadline kyber bfq cfq noop
 	do
 		if [[ "$avail_scheds" == *"$sched"* ]]
 		then
