@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-# YAKT v706
+# YAKT v707
 # Author: @NotZeetaa (Github)
 # ×××××××××××××××××××××××××× #
 
@@ -85,7 +85,7 @@ ANDROID_VERSION=$(getprop ro.build.version.release)
 TOTAL_RAM=$(free -m | awk '/Mem/{print $2}')
 
 # Log starting information
-log_info "Starting YAKT v706"
+log_info "Starting YAKT v707"
 log_info "Build Date: 06/06/2024"
 log_info "Author: @NotZeetaa (Github)"
 log_info "Device: $(getprop ro.product.system.model)"
@@ -323,6 +323,9 @@ log_info "NETWORK_TWEAK_PERFORMANCE"
 sysctl -w net.ipv4.tcp_low_latency=1
 sysctl -w net.ipv4.tcp_timestamps=0
 sysctl -w net.ipv4.tcp_slow_start_after_idle=0
+write_value "$IPV4_PATH/tcp_low_latency" 1
+write_value "$IPV4_PATH/tcp_timestamps" 0
+write_value "$IPV4_PATH/tcp_slow_start_after_idle" 0
 fi
 if $NETWORK_TWEAK_EXTRA
 then
@@ -454,7 +457,8 @@ fi
 [[ "$ANDROID" == true ]] && if [[ -d "/dev/stune/" ]]
 then
 	# We are not concerned with prioritizing latency
-	write_value "/dev/stune/top-app/schedtune.prefer_idle" 0
+#	MY TWEAK: DON'T RUN THIS
+#	write_value "/dev/stune/top-app/schedtune.prefer_idle" 0
 
 	# Mark top-app as boosted, find high-performing CPUs
 	write_value "/dev/stune/top-app/schedtune.boost" 1
@@ -530,7 +534,10 @@ do
 done
 
 # My tweak
-write_value "$MEMORY_PATH/swappiness" 0
+write_value "/proc/sys/vm/dirty_background_ratio" 5
+write_value "/proc/sys/vm/dirty_ratio" 5
+write_value "/proc/sys/vm/swappiness" 0
+write_value "/proc/sys/vm/stat_interval" 120
 
 # Disable watchdog
 log_info "Disable watchdog..."
