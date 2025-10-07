@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-# YAKT v707
+# YAKT v708
 # Author: @NotZeetaa (Github)
 # ×××××××××××××××××××××××××× #
 
@@ -85,7 +85,7 @@ ANDROID_VERSION=$(getprop ro.build.version.release)
 TOTAL_RAM=$(free -m | awk '/Mem/{print $2}')
 
 # Log starting information
-log_info "Starting YAKT v707"
+log_info "Starting YAKT v708"
 log_info "Build Date: 06/06/2024"
 log_info "Author: @NotZeetaa (Github)"
 log_info "Device: $(getprop ro.product.system.model)"
@@ -456,9 +456,8 @@ fi
 
 [[ "$ANDROID" == true ]] && if [[ -d "/dev/stune/" ]]
 then
-	# We are not concerned with prioritizing latency
-#	MY TWEAK: DON'T RUN THIS
-#	write_value "/dev/stune/top-app/schedtune.prefer_idle" 0
+	# We are concerned with prioritizing latency
+	write_value "/dev/stune/top-app/schedtune.prefer_idle" 0
 
 	# Mark top-app as boosted, find high-performing CPUs
 	write_value "/dev/stune/top-app/schedtune.boost" 1
