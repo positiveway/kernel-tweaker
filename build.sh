@@ -10,5 +10,7 @@ curl -F document="@$1" "https://api.telegram.org/bot${token}/sendDocument" \
 }
 echo ""
 rm -rf ./*.zip
+rm -rf ./"YAKT-v708"
 zip -r9 "YAKT-v708.zip" . -x "*build*" "*changelog*" "*.bak*" "*.git*" "*.zip" ".idea*" "test_*"
+rm -rf ./"YAKT-v708"
 #push "YAKT-v708.zip"
